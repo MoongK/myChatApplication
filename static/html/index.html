@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>myChat</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <script src="http://192.168.10.27:3002/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <div id="chatBoard"></div>
+    <div id="main">
+        <input type="text" id="test">
+        <button onclick="send()">전송</button>
+    </div>
+
+<script>
+
+var socket = io();
+
+socket.on('connect', function(){
+    var input = document.getElementById('test');
+    input.value = "접속 됨";
+
+    const name = "문경이";
+    socket.emit("newUser", name);
+});
+
+socket.on('update', function(data){
+    document.querySelector("#chatBoard").append(data);
+});
+
+function send(){
+    var message = document.getElementById('test').value;
+
+    document.getElementById('test').value = "";
+
+    socket.emit('send', {msg:message});
+    socket.on
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+#main{
+    margin: auto;
+    margin-top: 0px;
+    background-color: lightblue;
+    text-align: center;
+    width:200px;
+}
+
+#chatBoard{
+    margin:auto;
+    margin-top:10px;
+    margin-bottom: 10px;
+    background-color: lightpink;
+    width:200px;
+    height:200px;
+}
