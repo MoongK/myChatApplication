@@ -3,13 +3,16 @@ const app = express();
 const socket = require('socket.io');
 const http = require('http');
 const server = http.createServer(app);
-// const server = http.Server(app);
 const io = socket(server);
 const fs = require('fs');
+const qs = require('querystring');
 
-app.use('/css', express.static('./static/css'));
-app.use('/js', express.static('.static/js'));
+const bodyParser = require('body-parser');
+const htmlTemplete = require('./public/js/htmlTemplete');
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('public'));
 
+let users = new Array();
 io.sockets.on('connection', function(socket){
 
     console.log(`(${getTime()})유저 접속 됨`);
@@ -18,37 +21,69 @@ io.sockets.on('connection', function(socket){
         console.log(`(${getTime()}) 전달된 메시지 : ${data.msg}`);
     
         io.sockets.emit("update", data.msg);
-        // socket.emit('update', data.msg);
     });
 
     socket.on("newUser", function(data){
-        console.log(`(${getTime()}) ${data} 접속!`);
+        console.log(`(${getTime()}) ${data.user} 접속!`);
+        userPlus(socket.id);
+        console.log(`현재 users : ${users}`);
+    });
+
+    socket.on("JoiningUser", function(data){
+        console.log(`접속 중 : ${data}`);
     });
 
 
     socket.on('disconnect', function(){
         console.log(`(${getTime()})접속 종료`);
+        io.sockets.emit("userChk");
+        console.log(`나간 사람 : ${socket.id}`);
+        userDelete(socket.id);
+
     });
+
 });
 
 app.get('/', function(request, response){
-    fs.readFile('./static/html/index.html', function(err, data){
+    fs.readFile('./public/html/login.html', function(err, data){
         if(err){
             response.send('에러발생');
         }
         else{
-            response.writeHead(200, {'Content-Type':'text/html'});
+            response.writeHead(200, {'Content-Type':'text/html; charset=utf-8'});
             response.write(data);
             response.end();
-            /* response.send(data); */
         }
     });
+});
+
+app.post('/startChat', function(request, response){
+    htmlTemplete.html(response, request.body.userName);
+/*     fs.readFile('./public/html/index.html', function(err, data){
+        if(err){
+            response.send('에러발생');
+        }
+        else{
+            const userName = request.body.userName;
+            who = request.body.userName;
+            console.log(`유저 접속 :${userName}`);
+            response.writeHead(200, {'Content-Type':'text/html; charset=utf-8'});
+            response.write(data);
+            response.end();
+        }
+    }); */
+
+});
+
+app.get('/startChat', function(request, response){
+    response.redirect("/");
 });
 
 server.listen("3002", function(){
     console.log(`(${getTime()}) 서버 실행 중...`);
 });
 
+// 현재시간 구하기
 function getTime(){
 
     const date = new Date();
@@ -60,4 +95,15 @@ function getTime(){
     const time = `${month}월 ${day}일 ${hours}시 ${minutes}분 ${seconds}초`;
 
     return time;
+}
+
+// 새로운 유저 set
+function userPlus(user){
+    users.push(user);
+}
+
+// 남은 유저 셋팅
+function userDelete(user){
+    users.pop(user);
+    console.log(users);
 }
