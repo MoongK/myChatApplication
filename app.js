@@ -18,9 +18,9 @@ io.sockets.on('connection', function(socket){
     console.log(`(${getTime()})유저 접속 됨`);
 
     socket.on('send', function(data){
-        console.log(`(${getTime()}) 전달된 메시지 : ${data.msg}`);
+        console.log(`(${getTime()}) 전달된 메시지 : ${data.msg} , 유저 : ${data.user}`);
     
-        io.sockets.emit("update", data.msg);
+        io.sockets.emit("update", {userName:data.user, msg:data.msg});
     });
 
     socket.on("newUser", function(data){
@@ -83,6 +83,17 @@ server.listen("3002", function(){
     console.log(`(${getTime()}) 서버 실행 중...`);
 });
 
+// 새로운 유저 set
+function userPlus(user){
+    users.push(user);
+}
+
+// 남은 유저 셋팅
+function userDelete(user){
+    users.pop(user);
+    console.log(users);
+}
+
 // 현재시간 구하기
 function getTime(){
 
@@ -95,15 +106,4 @@ function getTime(){
     const time = `${month}월 ${day}일 ${hours}시 ${minutes}분 ${seconds}초`;
 
     return time;
-}
-
-// 새로운 유저 set
-function userPlus(user){
-    users.push(user);
-}
-
-// 남은 유저 셋팅
-function userDelete(user){
-    users.pop(user);
-    console.log(users);
 }

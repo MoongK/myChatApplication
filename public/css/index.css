@@ -3,19 +3,47 @@ body{
 }
 
 
-#main{
+#chatInput{
     margin: auto;
     margin-top: 0px;
     background-color: lightblue;
     text-align: center;
     width:200px;
+    padding: 10px;
 }
 
 #chatBoard{
+    padding:10px;
     margin:auto;
     margin-top:10px;
     margin-bottom: 10px;
     background-color: lightpink;
     width:200px;
     height:200px;
+    overflow-y: auto;
 }
+
+.chatBox{
+    width:100%;
+}
+
+.leftChat{
+    text-align:left;
+    margin-bottom: 5px;
+}
+
+.rightChat{
+    text-align:right;
+    margin-bottom: 5px;
+}
+
+.bubble{
+    display:inline-block;
+    max-width:40%;
+    word-break: break-all;
+    word-wrap: break-word;
+    border-radius: 5px;
+    padding: 5px;
+}
+.mybubble{background-color:yellow;}
+.otherbubble{background-color:white;}

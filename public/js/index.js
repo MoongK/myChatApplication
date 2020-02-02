@@ -2,27 +2,65 @@ var socket = io();
 
 let myName = "";
 
+let chatInputer;
+let chatBoard;
+let sender;
+
+// 창이 로드되고 난 뒤 호출되는 이벤트
+window.addEventListener("DOMContentLoaded", function(){
+
+    chatInputer = document.getElementById("chatInputer");
+    chatBoard = document.querySelector("#chatBoard");
+    sender = document.getElementById("sender");
+
+    sender.addEventListener("click", function(){
+        send();
+    });
+
+    chatInputer.addEventListener("keypress", function(event){
+        if(event.keyCode == 13){    
+            sender.click();
+        }
+    });
+    
+});
+
+
+/***************************** Socket.io *****************************/
 socket.on('connect', function(){
     setName();
 });
 
 socket.on('update', function(data){
-    document.querySelector("#chatBoard").append(data);
+
+    let leftOrRight = "";
+    if(data.userName == myName){
+        leftOrRight = `rightChat`;
+    }
+    else{
+        leftOrRight = `leftChat`;
+    }
+    drawChat(leftOrRight, data.userName, data.msg);
 });
 
 socket.on('userChk', function(data){
 
     socket.emit('JoiningUser',`${myName}`);
 });
-
+/*****************************           *****************************/
 
 // 메시지 보내기
 function send(){
-    var message = document.getElementById('test').value;
 
-    document.getElementById('test').value = "";
+    if(chatInputer.value == ""){
+        alert("내용을 입력해주세요.");
+        return;
+    }
 
-    socket.emit('send', {msg:message});
+    var message = chatInputer.value;
+    chatInputer.value = "";
+
+    socket.emit('send', {user:myName, msg:message});
 }
 
 // 접속시 내 이름 세팅
@@ -30,3 +68,35 @@ function setName(){
     myName = document.getElementById("yourName").innerText;
     socket.emit("newUser", {user:myName});
 }
+
+// 채팅 그리기
+function drawChat(leftOrRight, name, msg){
+
+    const chatBox = document.createElement("div");
+    chatBox.classList.add('chatBox');
+    chatBox.classList.add(leftOrRight);
+
+    const profileDiv = document.createElement("div"); // 프로필
+    profileDiv.className = "profile";
+    profileDiv.innerText = name;
+
+    const msgDiv = document.createElement("div"); // 메시지
+    let bubbleClass = "";
+    if(leftOrRight == "rightChat"){
+        bubbleClass = "mybubble"
+    }
+    else if(leftOrRight == "leftChat"){
+        bubbleClass = "otherbubble"
+    }
+    msgDiv.className =  'bubble';
+    msgDiv.classList.add(bubbleClass);
+    msgDiv.innerText = msg;
+
+    chatBox.appendChild(profileDiv);
+    chatBox.appendChild(msgDiv);
+    chatBoard.appendChild(chatBox);
+
+    chatBoard.scrollTop = chatBoard.scrollHeight;
+}
+
+
