@@ -10,7 +10,7 @@ module.exports = {
             <meta charset="utf-8">
             <title>오점머</title>
             <link rel="stylesheet" href="../css/index.css">
-            <script src="http://192.168.10.27:3002/socket.io/socket.io.js"></script>
+            <script src="http://192.168.0.6:3002/socket.io/socket.io.js"></script>
             <script src="../js/index.js"></script>
         </head>
         <body>
@@ -42,7 +42,7 @@ module.exports = {
             <meta charset="utf-8">
             <title>오늘 점심은..?</title>
             <link rel="stylesheet" href="../css/login.css">
-            <script src="http://192.168.10.27:3002/socket.io/socket.io.js"></script>
+            <script src="http://192.168.0.6:3002/socket.io/socket.io.js"></script>
             <script src="../js/login.js"></script>
         </head>
         <body>
