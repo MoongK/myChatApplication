@@ -2,9 +2,10 @@ var socket = io();
 
 let myName = "";
 
-let chatInputer;
-let chatBoard;
-let sender;
+let chatInputer; // 글 입력 상자
+let chatBoard; // 채팅 보드
+let sender; // 전송버튼
+let opacont; // 채팅창 투명도 설정
 
 // 창이 로드되고 난 뒤 호출되는 이벤트
 window.addEventListener("DOMContentLoaded", function(){
@@ -12,6 +13,8 @@ window.addEventListener("DOMContentLoaded", function(){
     chatInputer = document.getElementById("chatInputer");
     chatBoard = document.querySelector("#chatBoard");
     sender = document.getElementById("sender");
+    opacont = document.getElementById("opacont");
+    opacont.defaultValue = 1;
 
     sender.addEventListener("click", function(){
         send();
@@ -21,6 +24,10 @@ window.addEventListener("DOMContentLoaded", function(){
         if(event.keyCode == 13){    
             sender.click();
         }
+    });
+
+    opacont.addEventListener("input", function(){
+        setOpa();
     });
     
 });
@@ -99,4 +106,9 @@ function drawChat(leftOrRight, name, msg){
     chatBoard.scrollTop = chatBoard.scrollHeight;
 }
 
-
+// 각 객체들 투명도 설정
+function setOpa(){
+    chatBoard.style.opacity = opacont.value;
+    document.getElementById("chatInput").style.opacity = opacont.value;
+    document.getElementById("yourName").style.opacity = opacont.value;
+}
