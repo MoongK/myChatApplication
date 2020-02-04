@@ -1,3 +1,4 @@
+/*************** 홈피 배경 ***************/
 html{
     width: 100%;
     height: 100%;
@@ -6,6 +7,7 @@ html{
 }
 
 body{
+    background-color: black;
     text-align: center;
     width: 100%;
     height: 100%;
@@ -13,6 +15,67 @@ body{
     margin: 0;
 }
 
+.bgImage {
+    position: fixed;
+    width:100%;
+    height:100%;
+    top:0;
+    left:0;
+    z-index:-1;
+}
+
+/*************** todoList ***************/
+#todoInput > *{
+    display:inline-block;
+    vertical-align:middle;
+}
+
+#todoDiv{
+    position: absolute;
+    padding-left: 20px;
+    color:white;
+}
+
+@media(max-width: 1000px){
+    #todoDiv{
+        top: 350px;
+        text-align: center;
+        padding-left: 0;
+        margin-top: 30px;
+        width: 100%;
+    }
+}
+#todoList{
+    text-align: left;
+    position: absolute;
+    left: 0;
+}
+@media(max-width: 1000px){
+    #todoList{
+        position: static;
+        text-align: center;
+        padding:0;
+    }
+}
+#todoList > li {
+    font-weight: bold;
+}
+
+/*************** 캔버스 ***************/
+#mainCanvasDiv{
+    width:100%;
+}
+#mainCanvas{
+    width: 500px;
+    height: 500px;
+    background-color:white;
+    border-radius: 15px;
+    box-shadow: 3px 3px 3px 3px #999; 
+    -moz-box-shadow: 3px 3px 3px 3px #999;
+}
+
+
+/*************** 채팅 ***************/
 #Chat{
     position: absolute;
     right: 15px;
@@ -21,7 +84,7 @@ body{
     height:100%;
 }
 
-@media(max-width: 800px){
+@media(max-width: 1000px){
     #Chat{
         position:static;
         width:100%;
@@ -30,7 +93,14 @@ body{
     }
 }
 
+#NameTitle{
+    color:white;
+    padding: 0;
+    margin: 0;
+    font-size: 30px;
+}
 #yourName{
+    color:white;
     padding: 0;
     margin: 0;
 }
@@ -43,7 +113,7 @@ body{
     width:95%;
     padding: 10px;
 }
-@media(max-width: 800px){
+@media(max-width: 1000px){
     #chatInput{
         width:200px;
         height: 50px;
@@ -57,27 +127,13 @@ body{
     margin-bottom: 10px;
     background-color:lightpink;
     width: 95%;
-    height: 80%;
+    height: 85%;
     overflow-y: auto;
 }
-@media(max-width: 800px){
+@media(max-width: 1000px){
     #chatBoard{
         width:200px;
         height: 200px;
-    }
-}
-
-#todoList{
-    position: absolute;
-    padding-left: 20px;
-}
-
-@media(max-width: 800px){
-    #todoList{
-        top: 350px;
-        text-align: center;
-        padding-left: 0;
-        width: 100%;
     }
 }
 
@@ -95,6 +151,12 @@ body{
     margin-bottom: 5px;
 }
 
+.noticeChat{
+    width:100%;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
 .bubble{
     display:inline-block;
     max-width:40%;
@@ -102,6 +164,7 @@ body{
     word-wrap: break-word;
     border-radius: 5px;
     padding: 5px;
+    text-align: left;
 }
 .mybubble{background-color:yellow;}
 .otherbubble{background-color:white;}

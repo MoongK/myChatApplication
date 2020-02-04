@@ -28,6 +28,8 @@ io.sockets.on('connection', function(socket){
         console.log(`(${getTime()}) ${data.user} 접속!`);
         userPlus(socket.id, data.user);
         console.log(`현재 users : ${JSON.stringify(users)}`);
+        
+        io.sockets.emit("newUserNotice", {newUser:data.user});
     });
 
     socket.on("JoiningUser", function(data){
@@ -39,12 +41,19 @@ io.sockets.on('connection', function(socket){
         io.sockets.emit("userChk");
         const deletedUser = userDelete(socket.id);
         console.log(`(${getTime()})접속 종료 : [${deletedUser}](${socket.id})`);
+        io.sockets.emit("deleteNotice", {outUser:deletedUser});
     });
 
 });
 
+let fileCount; 
 app.get('/', function(request, response){
-    htmlTemplete.login(response);
+    fs.readdir("public/images", (err, files) => {
+        fileCount = Math.floor(Math.random() * files.length);
+        console.log(fileCount);
+        htmlTemplete.login(response, fileCount);
+    });
+
 /*     fs.readFile('./public/html/login.html', function(err, data){
         if(err){
             response.send('에러발생');
@@ -58,7 +67,8 @@ app.get('/', function(request, response){
 });
 
 app.post('/startChat', function(request, response){
-    htmlTemplete.html(response, request.body.userName);
+    console.log(fileCount);
+    htmlTemplete.html(response, request.body.userName, fileCount);
 /*     fs.readFile('./public/html/index.html', function(err, data){
         if(err){
             response.send('에러발생');
