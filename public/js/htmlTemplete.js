@@ -9,8 +9,10 @@ module.exports = {
         <head>
             <meta charset="utf-8">
             <title>오점머</title>
+            <script src="http://192.168.0.6:3002/socket.io/socket.io.js"></script>
             <link rel="stylesheet" href="../css/index.css">
-            <script src="http://192.168.10.27:3002/socket.io/socket.io.js"></script>
+            <link rel="stylesheet" href="../css/canvas.css">
+            <link rel="stylesheet" href="../css/todoList.css">
             <script src="../js/index.js"></script>
             <script src="../js/canvas.js"></script>
             <script src="../js/todoList.js"></script>
@@ -28,7 +30,24 @@ module.exports = {
                 </ul>
             </div>
             <div id="mainCanvasDiv">
-                <canvas id='mainCanvas'></canvas>
+                <canvas id='mainCanvas'></canvas><br>
+                <div class='palette'>
+                    <div class="palette_color" style="background-color:black;"></div>
+                    <div class="palette_color" style="background-color:white"></div>
+                    <div class="palette_color" style="background-color:#FF3B30"></div><br>
+                    <div class="palette_color" style="background-color:#FF9500"></div>
+                    <div class="palette_color" style="background-color:#FFCC00"></div>
+                    <div class="palette_color" style="background-color:#4CD963"></div><br>
+                    <div class="palette_color" style="background-color:#5AC8FA"></div>
+                    <div class="palette_color" style="background-color:#0579FF"></div>
+                    <div class="palette_color" style="background-color:#5856D6"></div>
+                </div>
+                <div class='paletteMode'>
+                    <input id='drawMode' type='button' value='그리기'>
+                </div>
+                <div class='penWidthDiv'>
+                    <input class='penWidth' type='range' orient='vertical'>
+                </div>
             </div>
             <div id='Chat'>
                 <div id="chatBoard"></div>
@@ -54,7 +73,7 @@ module.exports = {
             <meta charset="utf-8">
             <title>오늘 점심은..?</title>
             <link rel="stylesheet" href="../css/login.css">
-            <script src="http://192.168.10.27:3002/socket.io/socket.io.js"></script>
+            <script src="http://192.168.0.6:3002/socket.io/socket.io.js"></script>
             <script src="../js/login.js"></script>
         </head>
         <body>

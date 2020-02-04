@@ -1,0 +1,35 @@
+#todoInput > *{
+    display:inline-block;
+    vertical-align:middle;
+}
+
+#todoDiv{
+    position: absolute;
+    padding-left: 20px;
+    color:white;
+}
+
+@media(max-width: 1000px){
+    #todoDiv{
+        top: 350px;
+        text-align: center;
+        padding-left: 0;
+        margin-top: 30px;
+        width: 100%;
+    }
+}
+#todoList{
+    text-align: left;
+    position: absolute;
+    left: 0;
+}
+@media(max-width: 1000px){
+    #todoList{
+        position: static;
+        text-align: center;
+        padding:0;
+    }
+}
+#todoList > li {
+    font-weight: bold;
+}

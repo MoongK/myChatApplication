@@ -1,0 +1,57 @@
+#mainCanvasDiv{
+    width:100%;
+}
+#mainCanvas{
+    background-color:white;
+    border-radius: 15px;
+    box-shadow: 3px 3px 3px 3px #999; 
+    -moz-box-shadow: 3px 3px 3px 3px #999;
+    margin-bottom: 5px;
+}
+.palette{
+    width: 115px;
+    display: inline-block;
+    background-color:gray;
+    border-radius: 5px;
+    vertical-align: middle;
+    height: 105px;
+}
+
+.palette_color{
+    height: 30px;
+    width: 30px;
+    border-radius: 10px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.paletteMode{
+    width: 200px;
+    display: inline-block;
+    background-color:gray;
+    border-radius: 5px;
+    vertical-align: middle;
+    height: 105px;
+}
+
+.penWidthDiv{
+    width: 115px;
+    display: inline-block;
+    background-color:gray;
+    border-radius: 5px;
+    vertical-align: middle;
+    height: 105px;
+}
+
+.penWidth{
+    writing-mode: bt-lr; /* IE */
+    -webkit-appearance: slider-vertical; /* WebKit */
+    width: 8px;
+    height: 95%;
+    padding: 0 5px;
+}
+
+#drawMode{
+    width:70%;
+    margin-top: 3px;
+}

@@ -126,7 +126,7 @@ function makeNoticeChat(name, msg){
     chatBoard.appendChild(noticeChat);
 }
 
-// 각 객체들 투명도 설정
+// 채팅 관련 각 객체들 투명도 설정
 function setOpa(){
     chatBoard.style.opacity = opacont.value;
     document.getElementById("chatInput").style.opacity = opacont.value;
