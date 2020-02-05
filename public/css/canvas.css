@@ -1,6 +1,14 @@
+@import url(//fonts.googleapis.com/earlyaccess/nanumpenscript.css);
+
 #mainCanvasDiv{
     width:100%;
 }
+@media(max-width: 1000px){
+    #mainCanvasDiv{
+        display:none;
+    }
+}
+
 #mainCanvas{
     background-color:white;
     border-radius: 15px;
@@ -8,13 +16,18 @@
     -moz-box-shadow: 3px 3px 3px 3px #999;
     margin-bottom: 5px;
 }
-.palette{
-    width: 115px;
-    display: inline-block;
+
+.bottomMenu{
     background-color:gray;
-    border-radius: 5px;
+    display: inline-block;
     vertical-align: middle;
+    border-radius: 5px;
     height: 105px;
+    text-align: center;
+}
+
+#paletteDiv{
+    width: 115px;
 }
 
 .palette_color{
@@ -25,33 +38,81 @@
     cursor: pointer;
 }
 
-.paletteMode{
-    width: 200px;
-    display: inline-block;
-    background-color:gray;
-    border-radius: 5px;
-    vertical-align: middle;
-    height: 105px;
+.penWidthDiv{
+    width: 35px;
 }
 
-.penWidthDiv{
-    width: 115px;
-    display: inline-block;
-    background-color:gray;
+#currentColor{
+    height: 15px;
+    width: 15px;
     border-radius: 5px;
-    vertical-align: middle;
-    height: 105px;
+    display: inline-block;
 }
 
 .penWidth{
     writing-mode: bt-lr; /* IE */
     -webkit-appearance: slider-vertical; /* WebKit */
     width: 8px;
-    height: 95%;
+    height: 70%;
     padding: 0 5px;
+    display: block;
+}
+
+#paletteModeDiv{
+    width: 200px;
 }
 
 #drawMode{
     width:70%;
+    height:60px;
     margin-top: 3px;
+    font-weight: bold;
+    font-size: 50px;
+    font-family: 'Nanum Pen Script', cursive;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.drawSubMode{
+    width:30%;
+    margin-top:5px;
+    font-weight: bold;
+    font-size: 20px;
+    font-family: 'Nanum Pen Script', cursive;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+#turnInfoDiv{
+    width:130px;
+}
+
+.canvas_sideBarEle{
+    width: 80%;
+    height: 35%;
+    line-height: 150%;
+    background-color: white;
+    border-radius: 10px;
+    margin: 10px 10px;
+    font-family: 'Nanum Pen Script', cursive;
+    font-size: 25px;
+    font-weight: bold;
+}
+#turnSet:hover{
+    transform: scale(0.95);
+    cursor: pointer;
+}
+.myturn{
+    background-color: lightgreen;
+}
+.otherturn{
+    background-color: lightcoral;
+
+}
+
+#DrawingUser{
+    cursor: unset;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

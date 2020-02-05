@@ -28,14 +28,12 @@ io.sockets.on('connection', function(socket){
         console.log(`(${getTime()}) ${data.user} 접속!`);
         userPlus(socket.id, data.user);
         console.log(`현재 users : ${JSON.stringify(users)}`);
-        
         io.sockets.emit("newUserNotice", {newUser:data.user});
     });
 
     socket.on("JoiningUser", function(data){
         console.log(`접속 중 : ${data}`);
     });
-
 
     socket.on('disconnect', function(){
         io.sockets.emit("userChk");
@@ -44,13 +42,43 @@ io.sockets.on('connection', function(socket){
         io.sockets.emit("deleteNotice", {outUser:deletedUser});
     });
 
+    /***** 그리기 통신 *****/
+    socket.on('other_userDraw', function(data){
+        const x = data.x;
+        const y = data.y;
+        const color = data.color;
+        const penWidth = data.penWidth;
+        socket.broadcast.emit("other_getDraw", {x:x, y:y, color:color, penWidth:penWidth});
+    });
+
+    socket.on('other_userReadyDraw', function(data){
+        const x = data.x;
+        const y = data.y;
+        socket.broadcast.emit("other_getReadyDraw", {x:x, y:y});
+    });
+
+    socket.on('other_canvasClean', function(){
+        socket.broadcast.emit("other_doCanvasClean");
+    });
+    
+    socket.on('other_userFill', function(data){
+        socket.broadcast.emit("other_doUserFill", {color:data.color});
+    });
+
+    socket.on('turnRequire', function(data){
+        const usernm = users.filter(user => user.userId == data.id);
+        const id = usernm[0].userId;
+        const nm = usernm[0].userNm;
+        console.log(`turn require : ${nm}(${id})`);
+        io.sockets.emit("responseTurn", {id:id,name:nm});
+    });
+
 });
 
 let fileCount; 
 app.get('/', function(request, response){
     fs.readdir("public/images", (err, files) => {
         fileCount = Math.floor(Math.random() * files.length);
-        console.log(fileCount);
         htmlTemplete.login(response, fileCount);
     });
 

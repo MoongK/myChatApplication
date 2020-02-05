@@ -9,7 +9,7 @@ module.exports = {
         <head>
             <meta charset="utf-8">
             <title>오점머</title>
-            <script src="http://192.168.0.6:3002/socket.io/socket.io.js"></script>
+            <script src="http://192.168.10.27:3002/socket.io/socket.io.js"></script>
             <link rel="stylesheet" href="../css/index.css">
             <link rel="stylesheet" href="../css/canvas.css">
             <link rel="stylesheet" href="../css/todoList.css">
@@ -30,8 +30,9 @@ module.exports = {
                 </ul>
             </div>
             <div id="mainCanvasDiv">
-                <canvas id='mainCanvas'></canvas><br>
-                <div class='palette'>
+                <canvas id='mainCanvas'></canvas>
+                <br>
+                <div id='paletteDiv' class='bottomMenu'>
                     <div class="palette_color" style="background-color:black;"></div>
                     <div class="palette_color" style="background-color:white"></div>
                     <div class="palette_color" style="background-color:#FF3B30"></div><br>
@@ -42,11 +43,18 @@ module.exports = {
                     <div class="palette_color" style="background-color:#0579FF"></div>
                     <div class="palette_color" style="background-color:#5856D6"></div>
                 </div>
-                <div class='paletteMode'>
-                    <input id='drawMode' type='button' value='그리기'>
+                <div id='paletteModeDiv' class='bottomMenu'>
+                    <input id='drawMode' type='button' value='Draw'>
+                    <input id='canvasEraser' class='drawSubMode' type='button' value='Eraser'>
+                    <input id='canvasClean' class='drawSubMode' type='button' value='Clean'>
                 </div>
-                <div class='penWidthDiv'>
-                    <input class='penWidth' type='range' orient='vertical'>
+                <div id='penWidthDiv' class='bottomMenu'>
+                    <div id="currentColor"></div>
+                    <input id='penWidth'class='penWidth' type='range' min='1' max='10' step='0.1' orient='vertical'>
+                </div>
+                <div id='turnInfoDiv' class='bottomMenu'>
+                    <div id='turnSet' class='canvas_sideBarEle'>그리기 신청!</div>
+                    <div id='DrawingUser' class='canvas_sideBarEle'>wait..</div>
                 </div>
             </div>
             <div id='Chat'>
@@ -73,7 +81,7 @@ module.exports = {
             <meta charset="utf-8">
             <title>오늘 점심은..?</title>
             <link rel="stylesheet" href="../css/login.css">
-            <script src="http://192.168.0.6:3002/socket.io/socket.io.js"></script>
+            <script src="http://192.168.10.27:3002/socket.io/socket.io.js"></script>
             <script src="../js/login.js"></script>
         </head>
         <body>
