@@ -67,7 +67,7 @@ socket.on('deleteNotice', function(data){
 
 socket.on('newUserNotice', function(data){
     const newUser = data.newUser;
-    initCanvas(data.roomInfo.users);
+    setDrawingUser(data.roomInfo.users);
     drawChat("centerChat", newUser, "님이 들어왔습니다.");
     getCurrentUser(data.roomInfo.users);
 });

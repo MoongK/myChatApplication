@@ -195,15 +195,27 @@ function canvasInit(){
     }
 }
 socket.on('newUserNotice', function(data){
-    initCanvas(data.roomInfo);
+    setDrawingUser(data.roomInfo);
 });
 
-socket.on('hello', function(data){
+// 현재 그려지고 있는 그림 데이터를 넘겨준다.(FROM 첫번째 유저)
+socket.on('getImageURL', function(data){
+    const img = canvas.toDataURL();
+    const id = data.id;
+    socket.emit("imgdata", {img:img,id:id});
+});
+
+socket.on('canvasSync', function(data){
+    const imageTemplete = new Image(); // 기존에 그려지고 있는 그림을 담을 이미지
+    imageTemplete.src = data;
+    imageTemplete.onload = function(){
+        ctx.drawImage(imageTemplete, 0, 0);
+    }
 });
 
 
-// 첫 접속시 캔버스 상태 표시
-function initCanvas(roomInfo){
+// 첫 접속시 그리고 있는 유저 표시
+function setDrawingUser(roomInfo){
     drawingUser.innerText = roomInfo.drawUser;
 }
 

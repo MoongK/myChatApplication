@@ -9,13 +9,10 @@ module.exports = {
         <head>
             <meta charset="utf-8">
             <title>오점머</title>
-            <script src="http://192.168.10.27:3002/socket.io/socket.io.js"></script>
+            <script src="http://192.168.0.6:3002/socket.io/socket.io.js"></script>
             <link rel="stylesheet" href="../css/chat.css">
             <link rel="stylesheet" href="../css/canvas.css">
             <link rel="stylesheet" href="../css/todoList.css">
-            <script src="../js/chat.js"></script>
-            <script src="../js/canvas.js"></script>
-            <script src="../js/todoList.js"></script>
         </head>
         <body>
             <img class='bgImage' src='../images/${fileCount}.jpg'>
@@ -69,6 +66,9 @@ module.exports = {
                     <input id="opacont" type="range" min="0" max="1" step="0.1"> 
                 </div>
             </div>
+            <script src="../js/chat.js"></script>
+            <script src="../js/canvas.js"></script>
+            <script src="../js/todoList.js"></script>
         </body>
         </html>
         `;
@@ -83,7 +83,7 @@ module.exports = {
             <meta charset="utf-8">
             <title>오늘 점심은..?</title>
             <link rel="stylesheet" href="../css/login.css">
-            <script src="http://192.168.10.27:3002/socket.io/socket.io.js"></script>
+            <script src="http://192.168.0.6:3002/socket.io/socket.io.js"></script>
             <script src="../js/login.js"></script>
         </head>
         <body>

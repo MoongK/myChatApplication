@@ -19,8 +19,7 @@ let canvasCurrentImage; // 캔버스 마지막 정보를 담아놓는 변수
 // 현재 방 정보
 let roomInfo = {
     drawUser:"wait..",
-    users:"",
-    canvasInfo:"n"
+    users:""
 };
 
 io.sockets.on('connection', function(socket){
@@ -38,8 +37,8 @@ io.sockets.on('connection', function(socket){
         console.log(`현재 users : ${JSON.stringify(users)}`);
         console.log(`현재 usersOnly : ${JSON.stringify(usersOnlyName)}`);
         roomInfo.users = usersOnlyName;
-        io.sockets.emit("newUserNotice", {newUser:data.user, roomInfo:roomInfo});
-        io.to(socket.id).emit('hello');
+        io.sockets.emit("newUserNotice", {newUser:data.user, id:socket.id,  roomInfo:roomInfo});
+        io.to(users[0].userId).emit('getImageURL', {id:socket.id});
     });
 
     socket.on("JoiningUser", function(data){
@@ -100,6 +99,12 @@ io.sockets.on('connection', function(socket){
         roomInfo.drawUser = `wait..`;
         console.log(`turnEnd require : ${nm}(${id})`);
         io.sockets.emit("responseTurnEnd", {id:id,name:nm});
+    });
+
+    // 그리고 있는 사람의 현재 그림을 받은 후 새로 들어온 사람에게 그림을 뿌려준다.
+    socket.on('imgdata', function(data){
+        canvasCurrentImage = data.img;
+        io.to(data.id).emit("canvasSync", canvasCurrentImage);
     });
 });
 
