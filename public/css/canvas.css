@@ -98,6 +98,10 @@
     font-size: 25px;
     font-weight: bold;
 }
+
+#turnSet{
+    background-color: lightgreen;
+}
 #turnSet:hover{
     transform: scale(0.95);
     cursor: pointer;

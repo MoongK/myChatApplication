@@ -10,10 +10,10 @@ module.exports = {
             <meta charset="utf-8">
             <title>오점머</title>
             <script src="http://192.168.10.27:3002/socket.io/socket.io.js"></script>
-            <link rel="stylesheet" href="../css/index.css">
+            <link rel="stylesheet" href="../css/chat.css">
             <link rel="stylesheet" href="../css/canvas.css">
             <link rel="stylesheet" href="../css/todoList.css">
-            <script src="../js/index.js"></script>
+            <script src="../js/chat.js"></script>
             <script src="../js/canvas.js"></script>
             <script src="../js/todoList.js"></script>
         </head>
@@ -58,6 +58,8 @@ module.exports = {
                 </div>
             </div>
             <div id='Chat'>
+            <img src='../images/users.png' id='usersBtn'>
+            <div id='userlist' class='userlist'></div>
                 <div id="chatBoard"></div>
                 <div id="chatInput">
                     <input type="text" id="chatInputer">

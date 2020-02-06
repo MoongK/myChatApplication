@@ -6,6 +6,8 @@ let chatInputer; // 글 입력 상자
 let chatBoard; // 채팅 보드
 let sender; // 전송버튼
 let opacont; // 채팅창 투명도 설정
+let userlist; // 채팅참여중인 유저 목록div
+let usersBtn; // 채팅참여유저 보기 위한 버튼
 
 window.addEventListener("DOMContentLoaded", function(){
 
@@ -14,6 +16,8 @@ window.addEventListener("DOMContentLoaded", function(){
     sender = document.getElementById("sender");
     opacont = document.getElementById("opacont");
     opacont.defaultValue = 1;
+    userlist = document.getElementById("userlist");
+    usersBtn = document.getElementById("usersBtn");
 
     /**************** 채팅관련 ****************/
     sender.addEventListener("click", function(){ // 메시지 보내기 이벤트
@@ -29,6 +33,9 @@ window.addEventListener("DOMContentLoaded", function(){
     opacont.addEventListener("input", function(){ // 채팅창 투명도 설정 이벤트
         setOpa();
     });
+
+    usersBtn.addEventListener("mouseenter", showUserList);
+    usersBtn.addEventListener("mouseout", hideUserList);
 });
 
 /***************************** Socket.io *****************************/
@@ -55,12 +62,27 @@ socket.on('userChk', function(data){
 socket.on('deleteNotice', function(data){
     const outUser = data.outUser;
     drawChat("centerChat", data.outUser, "님이 나갔습니다.");
+    getCurrentUser(data.roomInfo.users);
 });
 
 socket.on('newUserNotice', function(data){
     const newUser = data.newUser;
+    initCanvas(data.roomInfo.users);
     drawChat("centerChat", newUser, "님이 들어왔습니다.");
+    getCurrentUser(data.roomInfo.users);
 });
+
+// 참여중인 유저 리스트에 그리기
+function getCurrentUser(arrayData){
+    const title = "<span id='userListTitle'>참여중인 유저</span>"
+    userlist.innerHTML = title;
+    arrayData.forEach(user => {
+            const userDiv = document.createElement("div");
+            userDiv.classList.add("userList_user");
+            userDiv.innerText = user;
+            userlist.appendChild(userDiv);
+    });
+}
 
 // 메시지 보내기
 function send(){
@@ -131,4 +153,15 @@ function setOpa(){
     chatBoard.style.opacity = opacont.value;
     document.getElementById("chatInput").style.opacity = opacont.value;
     document.getElementById("NameTitle").style.opacity = opacont.value;
+    document.getElementById("mainCanvasDiv").style.opacity = opacont.value;
+}
+
+// 유저목록 보이기
+function showUserList(){
+    userlist.style.display = "block";
+}
+
+// 유저목록 숨기기
+function hideUserList(){
+    userlist.style.display = "none";
 }

@@ -1,4 +1,5 @@
-/*************** 홈피 배경 ***************/
+@import url(//fonts.googleapis.com/earlyaccess/nanumpenscript.css);
+
 html{
     width: 100%;
     height: 100%;
@@ -168,3 +169,66 @@ body{
 }
 .mybubble{background-color:yellow;}
 .otherbubble{background-color:white;}
+
+.userlist{
+    background-color:white;
+    height: 150px;
+    border-radius: 10px;
+    position: absolute;
+    top: 1%;
+    width: 200px;
+    opacity: 0.8;
+    overflow-y: auto;
+    display: none;
+}
+@media(max-width: 1000px){
+    .userlist{
+        background-color:white;
+        height: 150px;
+        border-radius: 10px;
+        position: absolute;
+        top: 50px;
+        left: 10px;
+        width: 200px;
+        opacity: 0.8;
+        overflow-y: auto;
+        display: none;
+    }
+}
+
+#userListTitle{
+    width: 100%;
+    font-weight: bold;
+    font-size: 20px;
+    font-family: 'Nanum Pen Script', cursive;
+    color: forestgreen;
+}
+
+.userList_user{
+    width: 100%;
+    font-weight: bold;
+    font-size: 20px;
+    font-family: 'Nanum Pen Script', cursive;
+}
+
+#usersBtn{
+    position: fixed;
+    width: 35px;
+    height: 35px;
+    background-color:white;
+    border-radius: 30px;
+    right: 21.3%;
+    top: 2%;
+}
+
+@media(max-width: 1000px){
+    #usersBtn{
+        position: fixed;
+        width: 35px;
+        height: 35px;
+        background-color:white;
+        border-radius: 30px;
+        left: 10px;
+        top: 3px;
+    }
+}

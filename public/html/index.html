@@ -3,15 +3,63 @@
 <head>
     <meta charset="utf-8">
     <title>오점머</title>
-    <link rel="stylesheet" href="../css/index.css">
     <script src="http://192.168.10.27:3002/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/canvas.css">
+    <link rel="stylesheet" href="../css/todoList.css">
     <script src="../js/index.js"></script>
+    <script src="../js/canvas.js"></script>
+    <script src="../js/todoList.js"></script>
 </head>
 <body>
-    <div id="chatBoard"></div>
-    <div id="main">
-        <input type="text" id="test">
-        <button onclick="send()">전송</button>
+    <img class='bgImage' src='../images/${fileCount}.jpg'>
+    <h3 id='NameTitle'>Hello <span id='yourName'>${name}</span>!</h3>
+    <div id="todoDiv">
+        <h1 id='todoTitle'>오늘 할일은..</h1>
+        <div id='todoInput'>
+            <input id='todoValue' type='text'>
+            <button id='todoBtn'>추가!</button>
+        </div>
+        <ul id='todoList'>
+        </ul>
+    </div>
+    <div id="mainCanvasDiv">
+        <canvas id='mainCanvas'></canvas>
+        <br>
+        <div id='paletteDiv' class='bottomMenu'>
+            <div class="palette_color" style="background-color:black;"></div>
+            <div class="palette_color" style="background-color:white"></div>
+            <div class="palette_color" style="background-color:#FF3B30"></div><br>
+            <div class="palette_color" style="background-color:#FF9500"></div>
+            <div class="palette_color" style="background-color:#FFCC00"></div>
+            <div class="palette_color" style="background-color:#4CD963"></div><br>
+            <div class="palette_color" style="background-color:#5AC8FA"></div>
+            <div class="palette_color" style="background-color:#0579FF"></div>
+            <div class="palette_color" style="background-color:#5856D6"></div>
+        </div>
+        <div id='paletteModeDiv' class='bottomMenu'>
+            <input id='drawMode' type='button' value='Draw'>
+            <input id='canvasEraser' class='drawSubMode' type='button' value='Eraser'>
+            <input id='canvasClean' class='drawSubMode' type='button' value='Clean'>
+        </div>
+        <div id='penWidthDiv' class='bottomMenu'>
+            <div id="currentColor"></div>
+            <input id='penWidth'class='penWidth' type='range' min='1' max='10' step='0.1' orient='vertical'>
+        </div>
+        <div id='turnInfoDiv' class='bottomMenu'>
+            <div id='turnSet' class='canvas_sideBarEle'>그리기 신청!</div>
+            <div id='DrawingUser' class='canvas_sideBarEle'>wait..</div>
+        </div>
+    </div>
+    <div id='Chat'>
+        <div id="chatBoard"></div>
+        <div id="chatInput">
+            <input type="text" id="chatInputer">
+            <button id='sender'>전송</button>
+        </div>
+        <div>
+            <input id="opacont" type="range" min="0" max="1" step="0.1"> 
+        </div>
     </div>
 </body>
 </html>

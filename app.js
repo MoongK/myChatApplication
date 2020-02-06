@@ -13,6 +13,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 let users = new Array(); // 접속중 유저정보 배열
+let usersOnlyName = new Array(); // 유저 이름만 가져오는 배열
+let canvasCurrentImage; // 캔버스 마지막 정보를 담아놓는 변수
+
+// 현재 방 정보
+let roomInfo = {
+    drawUser:"wait..",
+    users:"",
+    canvasInfo:"n"
+};
 
 io.sockets.on('connection', function(socket){
 
@@ -20,7 +29,6 @@ io.sockets.on('connection', function(socket){
 
     socket.on('send', function(data){
         console.log(`(${getTime()}) [${data.user}] : ${data.msg}`);
-    
         io.sockets.emit("update", {userName:data.user, msg:data.msg});
     });
 
@@ -28,21 +36,27 @@ io.sockets.on('connection', function(socket){
         console.log(`(${getTime()}) ${data.user} 접속!`);
         userPlus(socket.id, data.user);
         console.log(`현재 users : ${JSON.stringify(users)}`);
-        io.sockets.emit("newUserNotice", {newUser:data.user});
+        console.log(`현재 usersOnly : ${JSON.stringify(usersOnlyName)}`);
+        roomInfo.users = usersOnlyName;
+        io.sockets.emit("newUserNotice", {newUser:data.user, roomInfo:roomInfo});
+        io.to(socket.id).emit('hello');
     });
 
     socket.on("JoiningUser", function(data){
         console.log(`접속 중 : ${data}`);
+        console.log(`현재 usersOnly : ${JSON.stringify(usersOnlyName)}`);
     });
 
     socket.on('disconnect', function(){
         io.sockets.emit("userChk");
         const deletedUser = userDelete(socket.id);
         console.log(`(${getTime()})접속 종료 : [${deletedUser}](${socket.id})`);
-        io.sockets.emit("deleteNotice", {outUser:deletedUser});
+        roomInfo.users = usersOnlyName;
+        io.sockets.emit("deleteNotice", {outUser:deletedUser, roomInfo:roomInfo});
     });
 
     /***** 그리기 통신 *****/
+    // 캔버스 그리기 요청
     socket.on('other_userDraw', function(data){
         const x = data.x;
         const y = data.y;
@@ -51,28 +65,42 @@ io.sockets.on('connection', function(socket){
         socket.broadcast.emit("other_getDraw", {x:x, y:y, color:color, penWidth:penWidth});
     });
 
+    // 캔버스 그리기 준비 요청
     socket.on('other_userReadyDraw', function(data){
         const x = data.x;
         const y = data.y;
         socket.broadcast.emit("other_getReadyDraw", {x:x, y:y});
     });
 
+    // 캔버스 클린 요청
     socket.on('other_canvasClean', function(){
         socket.broadcast.emit("other_doCanvasClean");
     });
     
+    // 캔버스 채우기 요청
     socket.on('other_userFill', function(data){
         socket.broadcast.emit("other_doUserFill", {color:data.color});
     });
 
+    // 그리기 신청 요청
     socket.on('turnRequire', function(data){
         const usernm = users.filter(user => user.userId == data.id);
         const id = usernm[0].userId;
         const nm = usernm[0].userNm;
+        roomInfo.drawUser = `${nm}'s turn!`;
         console.log(`turn require : ${nm}(${id})`);
         io.sockets.emit("responseTurn", {id:id,name:nm});
     });
 
+    // 그리기 턴 종료 요청
+    socket.on('turnEnd', function(data){
+        const usernm = users.filter(user => user.userId == data.id);
+        const id = usernm[0].userId;
+        const nm = usernm[0].userNm;
+        roomInfo.drawUser = `wait..`;
+        console.log(`turnEnd require : ${nm}(${id})`);
+        io.sockets.emit("responseTurnEnd", {id:id,name:nm});
+    });
 });
 
 let fileCount; 
@@ -81,7 +109,6 @@ app.get('/', function(request, response){
         fileCount = Math.floor(Math.random() * files.length);
         htmlTemplete.login(response, fileCount);
     });
-
 /*     fs.readFile('./public/html/login.html', function(err, data){
         if(err){
             response.send('에러발생');
@@ -95,8 +122,8 @@ app.get('/', function(request, response){
 });
 
 app.post('/startChat', function(request, response){
-    console.log(fileCount);
     htmlTemplete.html(response, request.body.userName, fileCount);
+
 /*     fs.readFile('./public/html/index.html', function(err, data){
         if(err){
             response.send('에러발생');
@@ -130,6 +157,7 @@ function userPlus(userId, userNm){
     }
 
     users.push(newPerson);
+    usersOnlyName.push(newPerson.userNm);
 }
 
 // 나간 유저 삭제
@@ -141,6 +169,7 @@ function userDelete(userId){
         if(users[i].userId == userId){
             whoDeleted = users[i].userNm;
             users.splice(i, 1);
+            usersOnlyName.splice(i, 1);
             break;
         }
     }

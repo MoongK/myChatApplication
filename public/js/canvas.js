@@ -194,6 +194,18 @@ function canvasInit(){
         alert("캔버스를 찾을 수 없습니다.");
     }
 }
+socket.on('newUserNotice', function(data){
+    initCanvas(data.roomInfo);
+});
+
+socket.on('hello', function(data){
+});
+
+
+// 첫 접속시 캔버스 상태 표시
+function initCanvas(roomInfo){
+    drawingUser.innerText = roomInfo.drawUser;
+}
 
 // 타인 그리기 적용준비
 socket.on('other_getReadyDraw', function(data){
