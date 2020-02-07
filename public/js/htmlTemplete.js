@@ -1,5 +1,6 @@
-/* <script src="http://192.168.10.27:3002/socket.io/socket.io.js"></script> // 회사
-<script src="http://192.168.0.6:3002/socket.io/socket.io.js"></script> // 집 */
+const companyPath = `<script src="http://192.168.10.27:3002/socket.io/socket.io.js"></script>`; // 회사
+const homePath = `<script src="http://192.168.0.6:3002/socket.io/socket.io.js"></script>` // 집
+
 module.exports = {
     html:function(response, _name, fileCount){
         const name = _name;
@@ -9,13 +10,18 @@ module.exports = {
         <head>
             <meta charset="utf-8">
             <title>오점머</title>
-            <script src="http://192.168.0.6:3002/socket.io/socket.io.js"></script>
+            ${companyPath}
+            <script src="../js/main.js"></script>
+            <script src="../js/chat.js"></script>
+            <script src="../js/canvas.js"></script>
+            <script src="../js/todoList.js"></script>
+            <link rel="stylesheet" href="../css/main.css">
             <link rel="stylesheet" href="../css/chat.css">
             <link rel="stylesheet" href="../css/canvas.css">
             <link rel="stylesheet" href="../css/todoList.css">
         </head>
         <body>
-            <img class='bgImage' src='../images/${fileCount}.jpg'>
+            <input id='bgInit' type='hidden' value='${fileCount}'>
             <h3 id='NameTitle'>Hello <span id='yourName'>${name}</span>!</h3>
             <div id="todoDiv">
                 <h1 id='todoTitle'>오늘 할일은..</h1>
@@ -50,12 +56,12 @@ module.exports = {
                     <input id='penWidth'class='penWidth' type='range' min='1' max='10' step='0.1' orient='vertical'>
                 </div>
                 <div id='turnInfoDiv' class='bottomMenu'>
-                    <div id='turnSet' class='canvas_sideBarEle'>그리기 신청!</div>
+                    <div id='turnSet' class='canvas_sideBarEle' disabled='disabled'>그리기 신청!</div>
                     <div id='DrawingUser' class='canvas_sideBarEle'>wait..</div>
                 </div>
             </div>
             <div id='Chat'>
-            <img src='../images/users.png' id='usersBtn'>
+            <img src='../icons/users.png' id='usersBtn'>
             <div id='userlist' class='userlist'></div>
                 <div id="chatBoard"></div>
                 <div id="chatInput">
@@ -66,9 +72,6 @@ module.exports = {
                     <input id="opacont" type="range" min="0" max="1" step="0.1"> 
                 </div>
             </div>
-            <script src="../js/chat.js"></script>
-            <script src="../js/canvas.js"></script>
-            <script src="../js/todoList.js"></script>
         </body>
         </html>
         `;
@@ -82,9 +85,9 @@ module.exports = {
         <head>
             <meta charset="utf-8">
             <title>오늘 점심은..?</title>
-            <link rel="stylesheet" href="../css/login.css">
-            <script src="http://192.168.0.6:3002/socket.io/socket.io.js"></script>
+            ${companyPath}
             <script src="../js/login.js"></script>
+            <link rel="stylesheet" href="../css/login.css">
         </head>
         <body>
         <input id='fileCount' type='hidden' value='${fileCount}'>

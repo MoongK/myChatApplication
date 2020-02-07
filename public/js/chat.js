@@ -39,10 +39,12 @@ window.addEventListener("DOMContentLoaded", function(){
 });
 
 /***************************** Socket.io *****************************/
+// 접속시 이름 셋팅
 socket.on('connect', function(){
     setName();
 });
 
+// 채팅을 받아온다
 socket.on('update', function(data){
 
     let leftOrRight = "";
@@ -55,16 +57,19 @@ socket.on('update', function(data){
     drawChat(leftOrRight, data.userName, data.msg);
 });
 
+// 누군가 나갔을 때 서버에서는 접속중인 유저를 체크하고, 서버에 나를 알린다.
 socket.on('userChk', function(data){
     socket.emit('JoiningUser',`${myName}`);
 });
 
+// 나간 유저 알림을 받는다.
 socket.on('deleteNotice', function(data){
     const outUser = data.outUser;
     drawChat("centerChat", data.outUser, "님이 나갔습니다.");
     getCurrentUser(data.roomInfo.users);
 });
 
+// 새로운 유저가 들어왔다는 알림을 받는다.
 socket.on('newUserNotice', function(data){
     const newUser = data.newUser;
     setDrawingUser(data.roomInfo.users);
@@ -72,7 +77,7 @@ socket.on('newUserNotice', function(data){
     getCurrentUser(data.roomInfo.users);
 });
 
-// 참여중인 유저 리스트에 그리기
+// 참여중인 유저를 유저리스트에 그리는 함수
 function getCurrentUser(arrayData){
     const title = "<span id='userListTitle'>참여중인 유저</span>"
     userlist.innerHTML = title;
@@ -84,7 +89,7 @@ function getCurrentUser(arrayData){
     });
 }
 
-// 메시지 보내기
+// 메시지 보내기 함수
 function send(){
 
     if(chatInputer.value == ""){
@@ -98,13 +103,13 @@ function send(){
     socket.emit('send', {user:myName, msg:message});
 }
 
-// 접속시 내 이름 세팅
+// 내 이름 세팅 함수
 function setName(){
     myName = document.getElementById("yourName").innerText;
     socket.emit("newUser", {user:myName});
 }
 
-// 채팅 그리기
+// 채팅 그리기 함수
 function drawChat(leftOrRight, name, msg){
 
     const chatBox = document.createElement("div");
@@ -140,7 +145,7 @@ function drawChat(leftOrRight, name, msg){
     chatBoard.scrollTop = chatBoard.scrollHeight;
 }
 
-// 공지사항 뿌리기
+// 공지사항 뿌리기 함수(접속,종료 알림)
 function makeNoticeChat(name, msg){
     const noticeChat = document.createElement("div");
     noticeChat.classList.add("noticeChat");
@@ -148,7 +153,7 @@ function makeNoticeChat(name, msg){
     chatBoard.appendChild(noticeChat);
 }
 
-// 채팅 관련 각 객체들 투명도 설정
+// 채팅 관련 각 객체들 투명도 설정 함수
 function setOpa(){
     chatBoard.style.opacity = opacont.value;
     document.getElementById("chatInput").style.opacity = opacont.value;
@@ -156,12 +161,12 @@ function setOpa(){
     document.getElementById("mainCanvasDiv").style.opacity = opacont.value;
 }
 
-// 유저목록 보이기
+// 유저목록 보이기 함수
 function showUserList(){
     userlist.style.display = "block";
 }
 
-// 유저목록 숨기기
+// 유저목록 숨기기 함수
 function hideUserList(){
     userlist.style.display = "none";
 }

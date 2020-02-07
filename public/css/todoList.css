@@ -5,6 +5,7 @@
 
 #todoDiv{
     position: absolute;
+    z-index: 1;
     padding-left: 20px;
     color:white;
 }

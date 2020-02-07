@@ -73,7 +73,6 @@ function deleteItem(event){
     const id = li.id; */
     todoList.removeChild(li);
 
-    console.log(todoItems);
     todoItems = todoItems.filter(item => item.id != li.id);
     setTodoItems(todoItems);
 }

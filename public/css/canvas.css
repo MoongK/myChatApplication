@@ -2,6 +2,7 @@
 
 #mainCanvasDiv{
     width:100%;
+    z-index: -1;
 }
 @media(max-width: 1000px){
     #mainCanvasDiv{

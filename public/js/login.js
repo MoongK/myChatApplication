@@ -1,5 +1,7 @@
 window.addEventListener("DOMContentLoaded", function(){
 
+    localStorage.removeItem("backgroundImg"); // 저장되어있는 backgroundImg를 삭제한다.
+
     const nameValue = document.getElementById("joinValue");
     const joinBtn = document.getElementById("joinBtn");
 
@@ -21,7 +23,7 @@ window.addEventListener("DOMContentLoaded", function(){
 
 function paintImage(imgNumber, body){
     const image = new Image();
-    image.src = `./images/${imgNumber}.jpg`;
+    image.src = `./bgImages/${imgNumber}.jpg`;
 
     body.appendChild(image);
     image.classList.add("bgImage");

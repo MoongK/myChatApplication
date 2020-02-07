@@ -14,6 +14,8 @@ let canvasClean; // 캔버스 클리너
 let penWidth; // 펜 굵기
 let palette; // 펜 색변경 파레트
 let turnSet; // 그리기 신청 / 턴 넘기기 버튼
+const TEXT_MYTURN = "내가 그리기!";
+const TEXT_OTHERTURN = '턴 넘기기!';
 let drawingUser; // 그리고 있는 유저 표시버튼
 let isMyturn; // 내 턴인지 체크하는 변수(true, false);
 
@@ -141,7 +143,7 @@ function penWidthCont(penWidth){
     ctx.lineWidth = penWidth.value;
 }
 
-// 컬러 변경
+// 컬러 변경 함수
 function colorChange(event){
     changedColor = event.target.style.backgroundColor;
     currentColor.style.backgroundColor = changedColor;
@@ -149,20 +151,20 @@ function colorChange(event){
     ctx.fillStyle = changedColor;
 }
 
-// 선 그리기
+// 선 그리기 함수
 function startPainting(x,y){
     ctx.lineTo(x, y);
     ctx.stroke();
     socket.emit("other_userDraw",{x:x,y:y,color:changedColor,penWidth:penWidth.value});
 }
 
-// 선 그리기 준비
+// 선 그리기 준비 함수
 function readyToPainting(x,y){
     ctx.beginPath();
     ctx.moveTo(x, y);
 }
 
-// 초기 캔버스 셋팅
+// 초기 캔버스 셋팅 함수
 function canvasInit(){
     canvas = document.getElementById("mainCanvas");
     if(canvas){
@@ -194,6 +196,8 @@ function canvasInit(){
         alert("캔버스를 찾을 수 없습니다.");
     }
 }
+
+// 새로운 유저가 들어왔을 때 그림을 그리고 있는 유저를 버튼에 적어준다.
 socket.on('newUserNotice', function(data){
     setDrawingUser(data.roomInfo);
 });
@@ -205,6 +209,7 @@ socket.on('getImageURL', function(data){
     socket.emit("imgdata", {img:img,id:id});
 });
 
+// 새로운 유저가 최근 그림을 받는다
 socket.on('canvasSync', function(data){
     const imageTemplete = new Image(); // 기존에 그려지고 있는 그림을 담을 이미지
     imageTemplete.src = data;
@@ -213,8 +218,7 @@ socket.on('canvasSync', function(data){
     }
 });
 
-
-// 첫 접속시 그리고 있는 유저 표시
+// 첫 접속시 그리고 있는 유저 표시 함수
 function setDrawingUser(roomInfo){
     drawingUser.innerText = roomInfo.drawUser;
 }
@@ -256,7 +260,7 @@ socket.on("responseTurn", function(data){
     if(data.id == socket.id){
         // 내 턴
         isMyturn = true;
-        turnSet.innerText = "턴 넘기기!";
+        turnSet.innerText = TEXT_OTHERTURN;
         turnSet.style.backgroundColor = '#FF9500';
         drawingUser.innerText = "my turn!";
         drawingUser.backgroundColor = "lightgreen";
@@ -266,11 +270,16 @@ socket.on("responseTurn", function(data){
         // 다른 사람 턴
         isMyturn = false;
         paintOn = false;
-        turnSet.innerText = `그리기 신청!`;
+        turnSet.innerText = TEXT_MYTURN;
         turnSet.style.backgroundColor = 'lightgreen';
         drawingUser.innerText = `${data.name}s turn!`;
         drawingUser.backgroundColor = "lightgray";
     }
+});
+
+// 그리기 턴 신청 결과 : 거절
+socket.on("nagativeTurnRequire", function(){
+    alert("현재 그리기가 진행중입니다.");
 });
 
 // 턴 종료 신청 결과
@@ -284,7 +293,7 @@ socket.on("responseTurnEnd", function(data){
     else{
         // 다른 사람의 결과
     }
-    turnSet.innerText = "그리기 신청!";
+    turnSet.innerText = TEXT_MYTURN;
     turnSet.style.backgroundColor = 'lightgreen';
     drawingUser.innerText = "wait..";
     drawingUser.backgroundColor = "white";
