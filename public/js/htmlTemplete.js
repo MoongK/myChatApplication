@@ -11,10 +11,6 @@ module.exports = {
             <meta charset="utf-8">
             <title>오점머</title>
             ${companyPath}
-            <script src="../js/main.js"></script>
-            <script src="../js/chat.js"></script>
-            <script src="../js/canvas.js"></script>
-            <script src="../js/todoList.js"></script>
             <link rel="stylesheet" href="../css/main.css">
             <link rel="stylesheet" href="../css/chat.css">
             <link rel="stylesheet" href="../css/canvas.css">
@@ -72,6 +68,10 @@ module.exports = {
                     <input id="opacont" type="range" min="0" max="1" step="0.1"> 
                 </div>
             </div>
+        <script src="../js/main.js"></script>
+        <script src="../js/chat.js"></script>
+        <script src="../js/canvas.js"></script>
+        <script src="../js/todoList.js"></script>
         </body>
         </html>
         `;
@@ -86,7 +86,6 @@ module.exports = {
             <meta charset="utf-8">
             <title>오늘 점심은..?</title>
             ${companyPath}
-            <script src="../js/login.js"></script>
             <link rel="stylesheet" href="../css/login.css">
         </head>
         <body>
@@ -98,6 +97,7 @@ module.exports = {
                     <input id="joinBtn" type="submit" value="들어간다!">
                 </form>
             </div>
+        <script src="../js/login.js"></script>
         </body>
         </html>
         `;

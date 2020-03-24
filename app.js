@@ -16,6 +16,7 @@ let users = new Array(); // 접속중 유저정보 배열
 let usersOnlyName = new Array(); // 유저 이름만 가져오는 배열
 let canvasCurrentImage; // 캔버스 마지막 정보를 담아놓는 변수
 let drawingNow = false; // 누군가 그리고 있다면 그리기 신청이 불가능하게 하는 변수. true : 그리는중 false : 대기중
+let drawingUser = ""; // 현재 그리고 있는 유저 아이디
 
 // 현재 방 정보
 let roomInfo = {
@@ -30,7 +31,8 @@ io.sockets.on('connection', function(socket){
 
     // 유저가 채팅메시지를 보냈을 때 받는 알림
     socket.on('send', function(data){
-        console.log(`(${getTime()}) [${data.user}] : ${data.msg}`);
+        const ip = socket.handshake.address;
+        console.log(`(${getTime()}) [${data.user} : ${ip}] : ${data.msg}`);
         io.sockets.emit("update", {userName:data.user, msg:data.msg});
     });
 
@@ -58,6 +60,12 @@ io.sockets.on('connection', function(socket){
         console.log(`(${getTime()})접속 종료 : [${deletedUser}](${socket.id})`);
         roomInfo.users = usersOnlyName;
         io.sockets.emit("deleteNotice", {outUser:deletedUser, roomInfo:roomInfo}); // 나간 유저를 모두에게 알려준다.
+
+        if(socket.id == drawingUser){
+            drawingNow = false;
+            drawingUser = "";
+            io.sockets.emit("responseTurnEnd", {id:socket.id,name:deletedUser});
+        }
     });
 
     /***** 그리기 통신 *****/
@@ -93,19 +101,23 @@ io.sockets.on('connection', function(socket){
             io.to(socket.id).emit("nagativeTurnRequire");
         }
         else{ // 그리기 신청 허용
+            
+            const userNm = users.filter(user => user.userId == data.id);
+            const id = userNm[0].userId;
+            
             drawingNow = true;
-            const usernm = users.filter(user => user.userId == data.id);
-            const id = usernm[0].userId;
-            const nm = usernm[0].userNm;
-            roomInfo.drawUser = `${nm}'s turn!`;
-            console.log(`turn require : ${nm}(${id})`);
-            io.sockets.emit("responseTurn", {id:id,name:nm});
+            drawingUser = id;
+
+            roomInfo.drawUser = `${userNm}'s turn!`;
+            console.log(`turn require : ${drawingUser}(${id})(${userNm[0].userNm})`);
+            io.sockets.emit("responseTurn", {id:id,name:userNm[0].userNm});
         }
     });
 
     // 그리기 턴 종료 요청
     socket.on('turnEnd', function(data){
         drawingNow = false;
+        drawingUser = "";
         const usernm = users.filter(user => user.userId == data.id);
         const id = usernm[0].userId;
         const nm = usernm[0].userNm;

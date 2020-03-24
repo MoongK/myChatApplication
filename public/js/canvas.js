@@ -272,7 +272,7 @@ socket.on("responseTurn", function(data){
         paintOn = false;
         turnSet.innerText = TEXT_MYTURN;
         turnSet.style.backgroundColor = 'lightgreen';
-        drawingUser.innerText = `${data.name}s turn!`;
+        drawingUser.innerText = `${data.name}'s turn!`;
         drawingUser.backgroundColor = "lightgray";
     }
 });
